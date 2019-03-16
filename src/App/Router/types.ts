@@ -1,7 +1,10 @@
+import { LocationState } from "redux-first-router";
+
 export interface OwnProps {
 }
 
 export interface StateProps {
+    route: LocationState
 }
 
 export interface DispatchProps {

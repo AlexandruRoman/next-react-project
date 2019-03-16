@@ -1,8 +1,10 @@
 import { OwnProps, StateProps, DispatchProps } from "./types";
 import { bindActionCreators } from "redux";
+import { getRoute } from "../../store/router/selectors";
 
 export function mapStateToProps(state: any, ownProps: OwnProps): StateProps {
     return {
+        route: getRoute(state)
     }
 }
 
