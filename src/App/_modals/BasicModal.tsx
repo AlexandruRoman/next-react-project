@@ -1,8 +1,9 @@
-import React, { Component } from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import styled from "styled-components"
-import { Modal } from "semantic-ui-react"
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { Modal } from 'semantic-ui-react'
+import { modalsIdSelector, modalsCloseAction } from '../../_brain/modals/modals'
 
 /*
  *      ______   ______   .___  ___. .______     ______   .__   __.  _______ .__   __. .___________.
@@ -39,14 +40,14 @@ export default connect<IStateProps, IDispatchProps, IOwnProps>(
 
 function mapStateToProps(state: any, ownProps: IOwnProps): IStateProps {
     return {
-        stateId: getModalId(state)
+        stateId: modalsIdSelector(state)
     }
 }
 
 function mapDispatchToProps(dispatch: any, ownProps: IOwnProps): IDispatchProps {
     return bindActionCreators(
         {
-            closeModal: closeModal
+            closeModal: modalsCloseAction
         },
         dispatch
     )
@@ -70,7 +71,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-    closeModal: typeof closeModal
+    closeModal: typeof modalsCloseAction
 }
 
 type IProps = IStateProps & IDispatchProps & IOwnProps

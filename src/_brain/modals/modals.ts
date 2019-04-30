@@ -3,33 +3,6 @@ import { action } from 'typesafe-actions'
 import { ApplicationState } from '../redux'
 
 /*
- *    .______    _______  _______   __    __    ______  _______ .______
- *    |   _  \  |   ____||       \ |  |  |  |  /      ||   ____||   _  \
- *    |  |_)  | |  |__   |  .--.  ||  |  |  | |  ,----'|  |__   |  |_)  |
- *    |      /  |   __|  |  |  |  ||  |  |  | |  |     |   __|  |      /
- *    |  |\  \-.|  |____ |  '--'  ||  `--'  | |  `----.|  |____ |  |\  \-.
- *    | _| `.__||_______||_______/  \______/   \______||_______|| _| `.__|
- */
-
-const initialState: IModalsPrivateState = {
-    id: ''
-}
-
-const privateReducer: Reducer<IModalsPrivateState> = (state = initialState, action) => {
-    switch (action.type) {
-        case MODALS_PRIVATE_ACTION_TYPES.SET: {
-            return { ...state, id: (action.payload as IModalsSetActionPayload).id }
-        }
-        default: {
-            return state
-        }
-    }
-}
-const publicReducer: Reducer<IModalsPublicState> = combineReducers<IModalsPublicState>({})
-
-export const modalsReducer = combineReducers<IModalsState>({ private: privateReducer, public: publicReducer })
-
-/*
  *         ___       ______ .___________. __    ______   .__   __.      _______.
  *        /   \     /      ||           ||  |  /  __  \  |  \ |  |     /       |
  *       /  ^  \   |  ,----'`---|  |----`|  | |  |  |  | |   \|  |    |   (----`
@@ -56,7 +29,7 @@ export interface IModalsCloseAction {
 interface IModalsCloseActionPayload {
     id: string
 }
-export const modalsCloseActionAction = () =>
+export const modalsCloseAction = () =>
     action<string, IModalsCloseActionPayload>(MODALS_PRIVATE_ACTION_TYPES.SET, { id: '' })
 
 /*
@@ -83,6 +56,33 @@ export interface IModalsState {
     readonly public: IModalsPublicState
     readonly private: IModalsPrivateState
 }
+
+/*
+ *    .______    _______  _______   __    __    ______  _______ .______
+ *    |   _  \  |   ____||       \ |  |  |  |  /      ||   ____||   _  \
+ *    |  |_)  | |  |__   |  .--.  ||  |  |  | |  ,----'|  |__   |  |_)  |
+ *    |      /  |   __|  |  |  |  ||  |  |  | |  |     |   __|  |      /
+ *    |  |\  \-.|  |____ |  '--'  ||  `--'  | |  `----.|  |____ |  |\  \-.
+ *    | _| `.__||_______||_______/  \______/   \______||_______|| _| `.__|
+ */
+
+const initialState: IModalsPrivateState = {
+    id: ''
+}
+
+const privateReducer: Reducer<IModalsPrivateState> = (state = initialState, action) => {
+    switch (action.type) {
+        case MODALS_PRIVATE_ACTION_TYPES.SET: {
+            return { ...state, id: (action.payload as IModalsSetActionPayload).id }
+        }
+        default: {
+            return state
+        }
+    }
+}
+const publicReducer: Reducer<IModalsPublicState> = combineReducers<IModalsPublicState>({})
+
+export const modalsReducer = combineReducers<IModalsState>({ private: privateReducer, public: publicReducer })
 
 /*
  *        ______. _______  __       _______   ______ .___________.  ______   .______      ______.

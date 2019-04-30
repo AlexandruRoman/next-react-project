@@ -12,41 +12,6 @@ import { action } from 'typesafe-actions'
 import { ApplicationState } from '../redux'
 
 /*
- *    .______    _______  _______   __    __    ______  _______ .______
- *    |   _  \  |   ____||       \ |  |  |  |  /      ||   ____||   _  \
- *    |  |_)  | |  |__   |  .--.  ||  |  |  | |  ,----'|  |__   |  |_)  |
- *    |      /  |   __|  |  |  |  ||  |  |  | |  |     |   __|  |      /
- *    |  |\  \-.|  |____ |  '--'  ||  `--'  | |  `----.|  |____ |  |\  \-.
- *    | _| `.__||_______||_______/  \______/   \______||_______|| _| `.__|
- */
-
-const initialState: IAuthPrivateState = {
-    permissions: [],
-    role: '',
-    userName: ''
-}
-
-const privateReducer: Reducer<IAuthPrivateState> = (state = initialState, action) => {
-    switch (action.type) {
-        case AUTH_PRIVATE_ACTION_TYPES.SET_USER_NAME: {
-            return { ...state, userName: (action.payload as IAuthSetUserNameActionPayload).userName }
-        }
-        case AUTH_PRIVATE_ACTION_TYPES.SET_PERMISSIONS: {
-            return { ...state, permissions: (action.payload as IAuthSetPermissionsActionPayload).permissions }
-        }
-        case AUTH_PRIVATE_ACTION_TYPES.SET_ROLE: {
-            return { ...state, role: (action.payload as IAuthSetRoleActionPayload).role }
-        }
-        default: {
-            return state
-        }
-    }
-}
-const publicReducer: Reducer<IAuthPublicState> = combineReducers<IAuthPublicState>({})
-
-export const authReducer = combineReducers<IAuthState>({ private: privateReducer, public: publicReducer })
-
-/*
  *         ___       ______ .___________. __    ______   .__   __.      _______.
  *        /   \     /      ||           ||  |  /  __  \  |  \ |  |     /       |
  *       /  ^  \   |  ,----'`---|  |----`|  | |  |  |  | |   \|  |    |   (----`
@@ -54,19 +19,54 @@ export const authReducer = combineReducers<IAuthState>({ private: privateReducer
  *     /  _____  \ |  `----.    |  |     |  | |  `--'  | |  |\   | .----)   |
  *    /__/     \__\ \______|    |__|     |__|  \______/  |__| \__| |_______/
  */
-
+export interface IAuthPopulateStateStartAction {
+    type: string
+    payload: IAuthPopulateStateStartActionPayload
+}
+interface IAuthPopulateStateStartActionPayload {}
+export type IAuthPopulateStateStartActionData = IAuthPopulateStateStartActionPayload
 export const authPopulateStateStartAction = (data: IAuthPopulateStateStartActionData) =>
     action<string, IAuthPopulateStateStartActionPayload>(AUTH_POPULATESTATE_ACTION_TYPES.START, data)
 
+export interface IAuthPopulateStateSuccessAction {
+    type: string
+    payload: IAuthPopulateStateSuccessActionPayload
+}
+type IAuthPopulateStateSuccessActionPayload = IJwt
+export type IAuthPopulateStateSuccessActionData = IAuthPopulateStateSuccessActionPayload
 export const authPopulateStateSuccessAction = (data: IAuthPopulateStateSuccessActionData) =>
     action<string, IAuthPopulateStateSuccessActionPayload>(AUTH_POPULATESTATE_ACTION_TYPES.SUCCESS, data)
 
+export interface IAuthSetUserNameAction {
+    type: string
+    payload: IAuthSetUserNameActionPayload
+}
+interface IAuthSetUserNameActionPayload {
+    userName: string
+}
+export type IAuthSetUserNameActionData = IAuthSetUserNameActionPayload
 export const authSetUserNameAction = (data: IAuthSetUserNameActionData) =>
     action<string, IAuthSetUserNameActionPayload>(AUTH_PRIVATE_ACTION_TYPES.SET_USER_NAME, data)
 
+export interface IAuthSetPermissionsAction {
+    type: string
+    payload: IAuthSetPermissionsActionPayload
+}
+interface IAuthSetPermissionsActionPayload {
+    permissions: string[]
+}
+export type IAuthSetPermissionsActionData = IAuthSetPermissionsActionPayload
 export const authSetPermissionsAction = (data: IAuthSetPermissionsActionData) =>
     action<string, IAuthSetPermissionsActionPayload>(AUTH_PRIVATE_ACTION_TYPES.SET_PERMISSIONS, data)
 
+export interface IAuthSetRoleAction {
+    type: string
+    payload: IAuthSetRoleActionPayload
+}
+interface IAuthSetRoleActionPayload {
+    role: string
+}
+export type IAuthSetRoleActionData = IAuthSetRoleActionPayload
 export const authSetRoleAction = (data: IAuthSetRoleActionData) =>
     action<string, IAuthSetRoleActionPayload>(AUTH_PRIVATE_ACTION_TYPES.SET_ROLE, data)
 
@@ -142,46 +142,40 @@ export interface IAuthState {
     readonly private: IAuthPrivateState
 }
 
-export interface IAuthPopulateStateStartAction {
-    type: string
-    payload: IAuthPopulateStateStartActionPayload
-}
-interface IAuthPopulateStateStartActionPayload {}
-export type IAuthPopulateStateStartActionData = IAuthPopulateStateStartActionPayload
+/*
+ *    .______    _______  _______   __    __    ______  _______ .______
+ *    |   _  \  |   ____||       \ |  |  |  |  /      ||   ____||   _  \
+ *    |  |_)  | |  |__   |  .--.  ||  |  |  | |  ,----'|  |__   |  |_)  |
+ *    |      /  |   __|  |  |  |  ||  |  |  | |  |     |   __|  |      /
+ *    |  |\  \-.|  |____ |  '--'  ||  `--'  | |  `----.|  |____ |  |\  \-.
+ *    | _| `.__||_______||_______/  \______/   \______||_______|| _| `.__|
+ */
 
-export interface IAuthPopulateStateSuccessAction {
-    type: string
-    payload: IAuthPopulateStateSuccessActionPayload
+const initialState: IAuthPrivateState = {
+    permissions: [],
+    role: '',
+    userName: ''
 }
-type IAuthPopulateStateSuccessActionPayload = IJwt
-export type IAuthPopulateStateSuccessActionData = IAuthPopulateStateSuccessActionPayload
 
-export interface IAuthSetUserNameAction {
-    type: string
-    payload: IAuthSetUserNameActionPayload
+const privateReducer: Reducer<IAuthPrivateState> = (state = initialState, action) => {
+    switch (action.type) {
+        case AUTH_PRIVATE_ACTION_TYPES.SET_USER_NAME: {
+            return { ...state, userName: (action.payload as IAuthSetUserNameActionPayload).userName }
+        }
+        case AUTH_PRIVATE_ACTION_TYPES.SET_PERMISSIONS: {
+            return { ...state, permissions: (action.payload as IAuthSetPermissionsActionPayload).permissions }
+        }
+        case AUTH_PRIVATE_ACTION_TYPES.SET_ROLE: {
+            return { ...state, role: (action.payload as IAuthSetRoleActionPayload).role }
+        }
+        default: {
+            return state
+        }
+    }
 }
-interface IAuthSetUserNameActionPayload {
-    userName: string
-}
-export type IAuthSetUserNameActionData = IAuthSetUserNameActionPayload
+const publicReducer: Reducer<IAuthPublicState> = combineReducers<IAuthPublicState>({})
 
-export interface IAuthSetPermissionsAction {
-    type: string
-    payload: IAuthSetPermissionsActionPayload
-}
-interface IAuthSetPermissionsActionPayload {
-    permissions: string[]
-}
-export type IAuthSetPermissionsActionData = IAuthSetPermissionsActionPayload
-
-export interface IAuthSetRoleAction {
-    type: string
-    payload: IAuthSetRoleActionPayload
-}
-interface IAuthSetRoleActionPayload {
-    role: string
-}
-export type IAuthSetRoleActionData = IAuthSetRoleActionPayload
+export const authReducer = combineReducers<IAuthState>({ private: privateReducer, public: publicReducer })
 
 /*
  *        ______. _______  __       _______   ______ .___________.  ______   .______      ______.

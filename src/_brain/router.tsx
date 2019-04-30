@@ -1,10 +1,10 @@
-import { connectRoutes } from "redux-first-router"
-import React from "react"
-import { NOT_FOUND } from "redux-first-router"
-import MainNode from "../MainNode/MainNode"
-import HomeScene from "../MainNode/_scenes/HomeScene"
-import { ApplicationState } from "./types"
-import { action } from "typesafe-actions"
+import { connectRoutes } from 'redux-first-router'
+import React from 'react'
+import { NOT_FOUND } from 'redux-first-router'
+import MainNode from '../MainNode/MainNode'
+import HomeScene from '../MainNode/_scenes/HomeScene'
+import { action } from 'typesafe-actions'
+import { ApplicationState } from './redux'
 
 /*
  *    .______     ______    __    __  .___________. _______     _______.
@@ -16,11 +16,11 @@ import { action } from "typesafe-actions"
  */
 
 const routeConstants = {
-    HOME: "route/HOME"
+    HOME: 'route/HOME'
 }
 
 const appRoutes = {
-    [routeConstants.HOME]: "/"
+    [routeConstants.HOME]: '/'
 }
 
 export const scenesMapping = {

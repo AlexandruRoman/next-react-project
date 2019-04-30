@@ -1,8 +1,9 @@
-import React, { Component } from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import styled from "styled-components"
-import { LocationState } from "redux-first-router"
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { LocationState } from 'redux-first-router'
+import { scenesMapping, locationSelector } from '../../_brain/router'
 
 /*
  *      ______   ______   .___  ___. .______     ______   .__   __.  _______ .__   __. .___________.
@@ -34,7 +35,7 @@ export default connect<IStateProps, IDispatchProps, IOwnProps>(
 
 function mapStateToProps(state: any, ownProps: IOwnProps): IStateProps {
     return {
-        route: getRoute(state)
+        route: locationSelector(state)
     }
 }
 
